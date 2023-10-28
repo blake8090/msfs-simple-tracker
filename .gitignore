@@ -1,3 +1,5 @@
+.idea
+out/
 .gradle
 **/build/
 !src/**/build/
@@ -22,9 +24,6 @@ gradle-app.setting
 
 # Compiled class file
 *.class
-
-# Log file
-*.log
 
 # BlueJ files
 *.ctxt
@@ -347,10 +346,6 @@ node_modules/
 # Visual Studio 6 workspace and project file (working project files containing files to include in project)
 *.dsw
 *.dsp
-
-# Visual Studio 6 technical files
-*.ncb
-*.aps
 
 # Visual Studio LightSwitch build output
 **/*.HTMLClient/GeneratedArtifacts
