@@ -12,6 +12,8 @@ import javafx.geometry.Point2D
 import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.layout.StackPane
+import javafx.scene.paint.Color
+import javafx.scene.shape.Circle
 import java.awt.Dimension
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
@@ -38,7 +40,11 @@ fun main() {
         }
     }
 }
-
+/*
+Plane latitude: -37.0082111351168
+Plane longitude: 174.78156941940162
+Plane altitude: 24.680170927245964
+ */
 private fun initFX(panel: JFXPanel) {
     val stackPane = StackPane()
     val scene = Scene(stackPane)
@@ -47,7 +53,11 @@ private fun initFX(panel: JFXPanel) {
     val mapView = MapView()
     mapView.setPrefSize(800.0, 600.0)
     mapView.zoom = 5.0
-    mapView.addLayer(CustomMapLayer())
+
+    val layer = CustomMapLayer()
+    mapView.addLayer(layer)
+    layer.addPoint(MapPoint(-37.0082111351168, 174.78156941940162), Circle(7.0, Color.RED))
+
     stackPane.children.add(mapView)
 }
 
