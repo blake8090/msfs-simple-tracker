@@ -29,12 +29,17 @@ import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.WindowConstants
 
+private const val PORT = 9001
+
 fun main() {
 
     runBlocking {
+        val address = InetSocketAddress("127.0.0.1", PORT)
         val socket = aSocket(ActorSelectorManager(Dispatchers.IO))
             .tcp()
-            .connect(InetSocketAddress("127.0.0.1", 9001))
+            .connect(address)
+        println("Connected to $address")
+
         val input = socket.openReadChannel()
         val output = socket.openWriteChannel(autoFlush = true)
 
