@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="out\**" />
+    <EmbeddedResource Remove="out\**" />
+    <None Remove="out\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Microsoft.FlightSimulator.SimConnect">
       <HintPath>.\lib\managed\Microsoft.FlightSimulator.SimConnect.dll</HintPath>
     </Reference>
