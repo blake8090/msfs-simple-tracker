@@ -4,6 +4,12 @@ import com.formdev.flatlaf.FlatDarkLaf
 import com.gluonhq.maps.MapLayer
 import com.gluonhq.maps.MapPoint
 import com.gluonhq.maps.MapView
+import io.ktor.network.selector.ActorSelectorManager
+import io.ktor.network.sockets.InetSocketAddress
+import io.ktor.network.sockets.aSocket
+import io.ktor.network.sockets.openReadChannel
+import io.ktor.network.sockets.openWriteChannel
+import io.ktor.utils.io.core.readBytes
 import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -14,12 +20,35 @@ import javafx.scene.Scene
 import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.scene.shape.Circle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import java.awt.Dimension
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.WindowConstants
 
 fun main() {
+
+    runBlocking {
+        val socket = aSocket(ActorSelectorManager(Dispatchers.IO))
+            .tcp()
+            .connect(InetSocketAddress("127.0.0.1", 9001))
+        val input = socket.openReadChannel()
+        val output = socket.openWriteChannel(autoFlush = true)
+
+        while (true) {
+            input.awaitContent()
+            val packetSize = input.availableForRead
+            val packet = input.readPacket(packetSize)
+            val message = String(packet.readBytes())
+            println("Received packet: '$message' size: ${packetSize} bytes")
+        }
+    }
+}
+
+private fun initGui() {
     FlatDarkLaf.setup()
 
     SwingUtilities.invokeLater {
@@ -37,9 +66,17 @@ fun main() {
             Platform.runLater {
                 initFX(fxPanel)
             }
+
+            addWindowListener(object : WindowAdapter() {
+                override fun windowClosing(e: WindowEvent) {
+                    super.windowClosing(e)
+                    println("Closing window")
+                }
+            })
         }
     }
 }
+
 /*
 Plane latitude: -37.0082111351168
 Plane longitude: 174.78156941940162
