@@ -15,6 +15,8 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
+
 
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-netty")

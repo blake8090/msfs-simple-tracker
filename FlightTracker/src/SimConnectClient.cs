@@ -10,7 +10,7 @@ namespace FlightTracker
 
         private SimConnect? simConnect;
 
-        public void Start()
+        public Boolean Start()
         {
             try
             {
@@ -29,10 +29,13 @@ namespace FlightTracker
 
                 Console.WriteLine("requesting data");
                 simConnect.RequestDataOnSimObject(DATA_REQUESTS.DataRequest, DEFINITIONS.SimPlaneDataStructure, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.DEFAULT, 0, 0, 0);
+
+                return true;
             }
             catch (COMException e)
             {
                 Console.WriteLine($"COMException: {e.Message}");
+                return false;
             }
         }
 
