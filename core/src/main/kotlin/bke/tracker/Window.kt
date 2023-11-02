@@ -5,18 +5,22 @@ import mu.KotlinLogging
 import java.awt.Dimension
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
+import javax.swing.JComponent
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.WindowConstants
 
-class Gui {
+class Window(
+    title: String,
+    private val content: JComponent
+) {
 
     private val log = KotlinLogging.logger {}
+    private val frame = JFrame(title)
 
-    val mapPanel = MapPanel()
     var onClose: () -> Unit = {}
 
-    fun start() {
+    fun open() {
         FlatDarkLaf.setup()
         SwingUtilities.invokeLater {
             createWindow()
@@ -24,11 +28,11 @@ class Gui {
     }
 
     private fun createWindow() {
-        JFrame("Simple Flight Tracker").apply {
+        frame.apply {
             preferredSize = Dimension(1920, 1080)
             defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
 
-            add(mapPanel)
+            add(content)
 
             pack()
             setLocationRelativeTo(null)

@@ -9,20 +9,21 @@ import kotlinx.coroutines.runBlocking
 
 fun main() {
     val server = Server(SelectorManager(Dispatchers.IO))
+    val mapPanel = MapPanel()
+    val window = Window("Simple Flight Tracker", mapPanel)
 
-    CoroutineScope(Dispatchers.Default).launch {
-        server.acceptNewClient()
-    }
-
-    val gui = Gui()
-    // TODO: use swing coroutines for this?
-    gui.onClose = {
+    window.onClose = {
         runBlocking {
             server.send("STOP")
             server.stop()
         }
     }
-    gui.start()
+
+    CoroutineScope(Dispatchers.Default).launch {
+        server.acceptClient()
+    }
+
+    window.open()
 
     /*
     SAMPLE DATA:
@@ -32,6 +33,6 @@ fun main() {
     */
     val latitude = -37.0082111351168
     val longitude = 174.78156941940162
-    gui.mapPanel.drawPoint(latitude, longitude, Color.RED, 10f)
-    gui.mapPanel.flyTo(latitude, longitude, 500777.0, 3f)
+    mapPanel.drawPoint(latitude, longitude, Color.RED, 10f)
+    mapPanel.flyTo(latitude, longitude, 500777.0, 3f)
 }

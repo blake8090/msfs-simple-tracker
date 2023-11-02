@@ -27,7 +27,7 @@ class Server(selectorManager: SelectorManager) {
         log.info { "Server is listening at ${serverSocket.localAddress}" }
     }
 
-    suspend fun acceptNewClient() {
+    suspend fun acceptClient() {
         log.info { "Waiting for client..." }
         val socket = serverSocket.accept()
         connections.add(
