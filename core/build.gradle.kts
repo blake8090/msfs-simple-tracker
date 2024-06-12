@@ -16,7 +16,7 @@ repositories {
     }
 }
 
-val arcgisVersion by extra { "200.2.0" }
+val arcgisVersion by extra { "200.4.0" }
 
 val natives = configurations.create("natives")
 
@@ -28,7 +28,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty")
     implementation("io.ktor:ktor-network")
 
-    implementation("ch.qos.logback:logback-classic:1.4.6")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.slf4j:slf4j-api:2.0.7")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 
